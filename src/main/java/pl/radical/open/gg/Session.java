@@ -28,7 +28,7 @@ public class Session implements ISession {
 	private SessionAccessor sessionAccessor = null;
 	private Set<SessionStateListener> sessionStateListeners = null;
 	private Map<String, Integer> sessionAttributes = null;
-	private IGGConfiguration m_configuration = new GGConfiguration();
+	private IGGConfiguration configuration = new GGConfiguration();
 
 	private DefaultConnectionService connectionService = null;
 	private DefaultLoginService loginService = null;
@@ -38,14 +38,14 @@ public class Session implements ISession {
 	private DefaultContactListService contactListService = null;
 	private DefaultPublicDirectoryService publicDirectoryService = null;
 
-	private final Map<String, Object> m_proxies = new HashMap<String, Object>();
+	private final Map<String, Object> proxies = new HashMap<String, Object>();
 
 	public Session(final IGGConfiguration configuration) throws GGException {
 		this();
 		if (configuration == null) {
 			throw new IllegalArgumentException("configuration cannot be null");
 		}
-		m_configuration = configuration;
+		this.configuration = configuration;
 	}
 
 	public Session() throws GGException {
@@ -69,7 +69,7 @@ public class Session implements ISession {
 	 * @see pl.radical.open.gg.ISession#getConfiguration()
 	 */
 	public IGGConfiguration getGGConfiguration() {
-		return m_configuration;
+		return configuration;
 	}
 
 	public void addSessionStateListener(final SessionStateListener sessionStateListener) {
@@ -90,106 +90,106 @@ public class Session implements ISession {
 	 * @see pl.radical.open.gg.ISession#getConnectionService()
 	 */
 	public IConnectionService getConnectionService() {
-		if (!m_proxies.containsKey(IConnectionService.class.getName())) {
+		if (!proxies.containsKey(IConnectionService.class.getName())) {
 			final ClassLoader classLoader = Session.class.getClassLoader();
 			final SessionInvocationHandler invocationHandler = new SessionInvocationHandler(connectionService);
 			final IConnectionService connectionServiceProxy = (IConnectionService) Proxy.newProxyInstance(classLoader, new Class[] {
 					IConnectionService.class
 			}, invocationHandler);
-			m_proxies.put(IConnectionService.class.getName(), connectionServiceProxy);
+			proxies.put(IConnectionService.class.getName(), connectionServiceProxy);
 		}
-		return (IConnectionService) m_proxies.get(IConnectionService.class.getName());
+		return (IConnectionService) proxies.get(IConnectionService.class.getName());
 	}
 
 	/**
 	 * @see pl.radical.open.gg.ISession#getLoginService()
 	 */
 	public ILoginService getLoginService() {
-		if (!m_proxies.containsKey(ILoginService.class.getName())) {
+		if (!proxies.containsKey(ILoginService.class.getName())) {
 			final ClassLoader classLoader = Session.class.getClassLoader();
 			final SessionInvocationHandler invocationHandler = new SessionInvocationHandler(loginService);
 			final ILoginService loginServiceProxy = (ILoginService) Proxy.newProxyInstance(classLoader, new Class[] {
 					ILoginService.class
 			}, invocationHandler);
-			m_proxies.put(ILoginService.class.getName(), loginServiceProxy);
+			proxies.put(ILoginService.class.getName(), loginServiceProxy);
 		}
-		return (ILoginService) m_proxies.get(ILoginService.class.getName());
+		return (ILoginService) proxies.get(ILoginService.class.getName());
 	}
 
 	/**
 	 * @see pl.radical.open.gg.ISession#getMessageService()
 	 */
 	public IMessageService getMessageService() {
-		if (!m_proxies.containsKey(IMessageService.class.getName())) {
+		if (!proxies.containsKey(IMessageService.class.getName())) {
 			final ClassLoader classLoader = Session.class.getClassLoader();
 			final SessionInvocationHandler invocationHandler = new SessionInvocationHandler(messageService);
 			final IMessageService messageServiceProxy = (IMessageService) Proxy.newProxyInstance(classLoader, new Class[] {
 					IMessageService.class
 			}, invocationHandler);
-			m_proxies.put(IMessageService.class.getName(), messageServiceProxy);
+			proxies.put(IMessageService.class.getName(), messageServiceProxy);
 		}
-		return (IMessageService) m_proxies.get(IMessageService.class.getName());
+		return (IMessageService) proxies.get(IMessageService.class.getName());
 	}
 
 	/**
 	 * @see pl.radical.open.gg.ISession#getPresenceService()
 	 */
 	public IPresenceService getPresenceService() {
-		if (!m_proxies.containsKey(IPresenceService.class.getName())) {
+		if (!proxies.containsKey(IPresenceService.class.getName())) {
 			final ClassLoader classLoader = Session.class.getClassLoader();
 			final SessionInvocationHandler invocationHandler = new SessionInvocationHandler(presenceService);
 			final IPresenceService presenceServiceProxy = (IPresenceService) Proxy.newProxyInstance(classLoader, new Class[] {
 					IPresenceService.class
 			}, invocationHandler);
-			m_proxies.put(IPresenceService.class.getName(), presenceServiceProxy);
+			proxies.put(IPresenceService.class.getName(), presenceServiceProxy);
 		}
-		return (IPresenceService) m_proxies.get(IPresenceService.class.getName());
+		return (IPresenceService) proxies.get(IPresenceService.class.getName());
 	}
 
 	/**
 	 * @see pl.radical.open.gg.ISession#getPublicDirectoryService()
 	 */
 	public IPublicDirectoryService getPublicDirectoryService() {
-		if (!m_proxies.containsKey(IPublicDirectoryService.class.getName())) {
+		if (!proxies.containsKey(IPublicDirectoryService.class.getName())) {
 			final ClassLoader classLoader = Session.class.getClassLoader();
 			final SessionInvocationHandler invocationHandler = new SessionInvocationHandler(publicDirectoryService);
 			final IPublicDirectoryService publicDirectoryServiceProxy = (IPublicDirectoryService) Proxy
 			.newProxyInstance(classLoader, new Class[] {
 					IPublicDirectoryService.class
 			}, invocationHandler);
-			m_proxies.put(IPublicDirectoryService.class.getName(), publicDirectoryServiceProxy);
+			proxies.put(IPublicDirectoryService.class.getName(), publicDirectoryServiceProxy);
 		}
-		return (IPublicDirectoryService) m_proxies.get(IPublicDirectoryService.class.getName());
+		return (IPublicDirectoryService) proxies.get(IPublicDirectoryService.class.getName());
 	}
 
 	/**
 	 * @see pl.radical.open.gg.ISession#getContactListService()
 	 */
 	public IContactListService getContactListService() {
-		if (!m_proxies.containsKey(IContactListService.class.getName())) {
+		if (!proxies.containsKey(IContactListService.class.getName())) {
 			final ClassLoader classLoader = Session.class.getClassLoader();
 			final SessionInvocationHandler invocationHandler = new SessionInvocationHandler(contactListService);
 			final IContactListService contactListServiceProxy = (IContactListService) Proxy.newProxyInstance(classLoader, new Class[] {
 					IContactListService.class
 			}, invocationHandler);
-			m_proxies.put(IContactListService.class.getName(), contactListServiceProxy);
+			proxies.put(IContactListService.class.getName(), contactListServiceProxy);
 		}
-		return (IContactListService) m_proxies.get(IContactListService.class.getName());
+		return (IContactListService) proxies.get(IContactListService.class.getName());
 	}
 
 	/**
 	 * @see pl.radical.open.gg.ISession#getRegistrationService()
 	 */
 	public IRegistrationService getRegistrationService() {
-		if (!m_proxies.containsKey(IRegistrationService.class.getName())) {
+		if (!proxies.containsKey(IRegistrationService.class.getName())) {
 			final ClassLoader classLoader = Session.class.getClassLoader();
 			final SessionInvocationHandler invocationHandler = new SessionInvocationHandler(registrationService);
 			final IRegistrationService registrationServiceProxy = (IRegistrationService) Proxy.newProxyInstance(classLoader, new Class[] {
 					IRegistrationService.class
 			}, invocationHandler);
-			m_proxies.put(IRegistrationService.class.getName(), registrationServiceProxy);
+			proxies.put(IRegistrationService.class.getName(), registrationServiceProxy);
 		}
-		return (IRegistrationService) m_proxies.get(IRegistrationService.class.getName());
+		return (IRegistrationService) proxies.get(IRegistrationService.class.getName());
 	}
 
 	protected void notifySessionStateChanged(final SessionState oldState, final SessionState newState) {
